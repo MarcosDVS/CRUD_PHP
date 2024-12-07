@@ -28,22 +28,4 @@
     </form>
 </div>
 
-<script>
-    function fillForm(id, descripcion, p_compra, p_venta) {
-        document.getElementById('id').value = id;
-        document.getElementById('descripcion').value = descripcion;
-        document.getElementById('p_compra').value = p_compra;
-        document.getElementById('p_venta').value = p_venta;
-        document.getElementById('submit-button').innerText = 'Update'; // Cambia el texto del botón
-        document.getElementById('submit-button').name = 'update'; // Cambia el name del botón a 'update'
-    }
-    function clearForm() {
-        document.getElementById('id').value = '';
-        document.getElementById('descripcion').value = '';
-        document.getElementById('p_compra').value = '';
-        document.getElementById('p_venta').value = '';
-        document.getElementById('submit-button').innerText = 'Create'; // Restablece el texto del botón
-        document.getElementById('submit-button').name = 'create'; // Restablece el nombre del botón a 'create'
-        hideForm(); // Cierra el modal
-    }
-</script>
+<script src="../Shared/js/ArticuloMethod.js"></script>

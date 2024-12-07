@@ -66,14 +66,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <td>
                     <form method="post" style="display:inline;">
                         <input type="hidden" name="id" value="<?php echo $articulo['Id']; ?>">
-                        <button type="button" name="edit" class="btn btn-warning btn-sm" onclick="showForm(<?php echo $articulo['Id']; ?>); fillForm('<?php echo $articulo['Id']; ?>', '<?php echo $articulo['Descripcion']; ?>', '<?php echo $articulo['P_Compra']; ?>', '<?php echo $articulo['P_Venta']; ?>');">
-                            <b>EDIT</b>
+                        <button type="button" name="edit" class="btn btn-warning btn-sm fw-bold" 
+                            onclick="showForm(<?php echo $articulo['Id']; ?>); 
+                            fillForm('<?php echo $articulo['Id']; ?>', '<?php echo $articulo['Descripcion']; ?>', 
+                            '<?php echo $articulo['P_Compra']; ?>', '<?php echo $articulo['P_Venta']; ?>');">
+                            EDIT
                         </button>
                     </form>
                     <form method="post" style="display:inline;" onsubmit="return confirmDelete();">
                         <input type="hidden" name="id" value="<?php echo $articulo['Id']; ?>">
-                        <button type="submit" name="delete" class="btn btn-danger btn-sm text-black">
-                            <b>DELETE</b>
+                        <button type="submit" name="delete" class="btn btn-danger btn-sm text-black fw-bold">
+                            DELETE
                         </button>
                     </form>
                 </td>
@@ -82,19 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </tbody>
 </table>
 
-<script>
-    // Funciones java para mostrar y ocultar el modal que posee el formulario
-    function showForm(id) {
-        document.getElementById('formModal').style.display = 'block';
-        document.getElementById('modalTitle').textContent = id === 0 ? 'New item' : 'Updating item';
-    }
-    function hideForm() {
-        document.getElementById('formModal').style.display = 'none';
-    }
-    function confirmDelete() {
-        return confirm("Are you sure you want to delete this?");
-    }
-</script>
+<script src="../Shared/js/ArticuloMethod.js"></script>
 
 <!-- Referencia al pie de pagina que se encuentra en Shared -->
 <?php require_once "../Shared/Footer.php"; ?>
