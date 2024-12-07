@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <div class="row mt-4">
     <div class="col">
-        <button id="newButton" class="btn btn-success mb-3 fw-bold" onclick="showForm(0);">
+        <button id="newButton" class="btn btn-success mb-3 fw-bold text-black" onclick="showForm(0);">
             NEW
         </button>
     </div>
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </form>
                     <form method="post" style="display:inline;" onsubmit="return confirmDelete();">
                         <input type="hidden" name="id" value="<?php echo $articulo['Id']; ?>">
-                        <button type="submit" name="delete" class="btn btn-danger btn-sm">
+                        <button type="submit" name="delete" class="btn btn-danger btn-sm text-black">
                             <b>DELETE</b>
                         </button>
                     </form>
