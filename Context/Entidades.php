@@ -1,4 +1,5 @@
 <!-- 
+ 
 1) Luego de activar las opciones apache y MySQL en XAMPP ve a tu navegador
 y pega esta direccion url 👉 http://localhost/phpmyadmin/
 
@@ -25,5 +26,6 @@ CREATE TABLE articulo (
 );
 
 Sombrealo y selecciona el boton "Go" o "Ejecutar"
+
 
 -->
