@@ -28,4 +28,5 @@
     </form>
 </div>
 
+<!-- Referencia a los metodos Javascript en ArticuloMethod.js -->
 <script src="../Shared/js/ArticuloMethod.js"></script>

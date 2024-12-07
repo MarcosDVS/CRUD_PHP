@@ -85,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </tbody>
 </table>
 
+<!-- Referencia a los metodos Javascript en ArticuloMethod.js -->
 <script src="../Shared/js/ArticuloMethod.js"></script>
 
 <!-- Referencia al pie de pagina que se encuentra en Shared -->
