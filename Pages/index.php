@@ -4,16 +4,20 @@ require_once "../Shared/Header.php";
 // Referencia a los servicios para la entidad articulo
 require_once "../Service/ArticuloService.php";
 // Referencia a los servicios para la entidad articulo
-$service = new ArticuloService();
-$articulos = $service->getAll();
+$artService = new ArticuloService();
+
+$Articulos = $artService->Consultar(); // Consulta los datos
+
 // Referencia a los servicios para la entidad articulo
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['create'])) {
-        $service->create($_POST['descripcion'], $_POST['p_compra'], $_POST['p_venta']);
-    } elseif (isset($_POST['update'])) {
-        $service->update($_POST['id'], $_POST['descripcion'], $_POST['p_compra'], $_POST['p_venta']);
-    } elseif (isset($_POST['delete'])) {
-        $service->delete($_POST['id']);
+    if (isset($_POST['crearItem'])) {
+        $artService->Crear($_POST['descripcion'], $_POST['p_compra'], $_POST['p_venta']);
+    } 
+    elseif (isset($_POST['editarItem'])) {
+        $artService->Editar($_POST['id'], $_POST['descripcion'], $_POST['p_compra'], $_POST['p_venta']);
+    } 
+    elseif (isset($_POST['eliminarItem'])) {
+        $artService->Eliminar($_POST['id']);
     }
     header("Location: index.php");
 }
@@ -57,27 +61,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($articulos as $articulo): ?>
+        <?php foreach ($Articulos as $item): ?>
             <tr>
-                <td><?php echo $articulo['Id']; ?></td>
-                <td><?php echo $articulo['Descripcion']; ?></td>
-                <td><?php echo $articulo['P_Compra']; ?></td>
-                <td><?php echo $articulo['P_Venta']; ?></td>
+                <td><?php echo $item['Id']; ?></td>
+                <td><?php echo $item['Descripcion']; ?></td>
+                <td>$<?= number_format($item['P_Compra'], 2) ?></td>
+                <td>$<?= number_format($item['P_Venta'], 2) ?></td>
                 <td>
-                    <form method="post" style="display:inline;">
-                        <input type="hidden" name="id" value="<?php echo $articulo['Id']; ?>">
-                        <button type="button" name="edit" class="btn btn-warning btn-sm fw-bold" 
-                            onclick="showForm(<?php echo $articulo['Id']; ?>); 
-                            fillForm('<?php echo $articulo['Id']; ?>', '<?php echo $articulo['Descripcion']; ?>', 
-                            '<?php echo $articulo['P_Compra']; ?>', '<?php echo $articulo['P_Venta']; ?>');">
-                            EDIT
-                        </button>
-                    </form>
-                    <form method="post" style="display:inline;" onsubmit="return confirmDelete();">
-                        <input type="hidden" name="id" value="<?php echo $articulo['Id']; ?>">
-                        <button type="submit" name="delete" class="btn btn-danger btn-sm text-black fw-bold">
-                            DELETE
-                        </button>
+                    <button type="button" class="btn btn-warning btn-sm fw-bold" 
+                        onclick="showForm(<?php echo $item['Id']; ?>); 
+                        fillForm('<?php echo $item['Id']; ?>', '<?php echo $item['Descripcion']; ?>', 
+                        '<?php echo $item['P_Compra']; ?>', '<?php echo $item['P_Venta']; ?>');">
+                        EDIT
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm text-black fw-bold" 
+                        onclick="if(confirmDelete()) { 
+                            document.getElementById('deleteForm<?php echo $item['Id']; ?>').submit(); }">
+                        DELETE
+                    </button>
+                    <form id="deleteForm<?php echo $item['Id']; ?>" method="post" style="display:none;">
+                        <input type="hidden" name="id" value="<?php echo $item['Id']; ?>">
+                        <input type="hidden" name="eliminarItem" value="1">
                     </form>
                 </td>
             </tr>

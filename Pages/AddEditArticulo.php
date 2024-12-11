@@ -17,8 +17,10 @@
             <label for="p_venta" class="form-label fw-bold">Precio de Venta</label>
             <input type="number" step="0.01" class="form-control" id="p_venta" name="p_venta" required>
         </div>
+        
         <div class="col-md-12 text-center mt-3">
-            <button type="submit" id="submit-button" name="create" class="btn btn-success fw-bold me-2 text-black">
+            <button type="submit" id="submit-button" name="crearItem"
+                class="btn btn-success fw-bold me-2 text-black">
                 Create
             </button>
             <button type="button" id="cancel-button" class="btn btn-secondary fw-bold text-black" onclick="clearForm()">
