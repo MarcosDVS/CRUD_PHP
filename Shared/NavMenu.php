@@ -10,6 +10,15 @@
                     <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : ''; ?>" aria-current="page" href="../Pages/index.php">Index</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'Clientes.php' ? 'active' : ''; ?>" aria-current="page" href="../Pages/Clientes.php">Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'Facturas.php' ? 'active' : ''; ?>" aria-current="page" href="../Pages/Facturas.php">Facturas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'AddEditFactura.php' ? 'active' : ''; ?>" aria-current="page" href="../Pages/AddEditFactura.php">Vender</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'about.php' ? 'active' : ''; ?>" href="../Pages/about.php">About</a>
                 </li>
             </ul>
