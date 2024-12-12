@@ -11,4 +11,4 @@
 <!-- Referencia al NavMenu.php -->
 <?php require_once "NavMenu.php" ?>
 
-<div class="container mt-4" style="margin-bottom: 100px;">
+<div style="margin-bottom: 100px;">
