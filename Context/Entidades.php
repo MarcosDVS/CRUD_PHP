@@ -27,5 +27,39 @@ CREATE TABLE articulo (
 
 Sombrealo y selecciona el boton "Go" o "Ejecutar"
 
+CREATE TABLE cliente (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
+    Direccion VARCHAR(255),
+    Telefono VARCHAR(15)
+);
+
+CREATE TABLE factura (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    ClienteId INT,
+    Fecha DATE NOT NULL DEFAULT CURDATE(),
+    TipoPago ENUM('Efectivo', 'Tarjeta') NOT NULL,
+    EsCredito BOOLEAN NOT NULL,
+    Total DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (ClienteId) REFERENCES cliente(Id)
+);
+
+CREATE TABLE factura_detalle (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    FacturaId INT,
+    ArticuloId INT,
+    Cantidad INT NOT NULL,
+    Precio DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (FacturaId) REFERENCES factura(Id),
+    FOREIGN KEY (ArticuloId) REFERENCES articulo(Id)
+);
+
+CREATE TABLE abono (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    FacturaId INT,
+    Fecha DATE NOT NULL DEFAULT CURDATE(),
+    Monto DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (FacturaId) REFERENCES factura(Id)
+);
 
 -->
