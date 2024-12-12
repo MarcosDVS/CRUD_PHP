@@ -17,7 +17,8 @@ function confirmDelete() {
 // Recolecta informacion de un registro en el index al utilizar
 //el boton EDIT y la inserta en el formulario AddEditArticulo
 //ademas cambia el metodo del boton Create de Crear a Editar
-function fillForm(id, nombre, direccion, telefono) {
+function fillForm(id, nombre, direccion, telefono) { // almacenan los valores
+    // Asignan los valores almacenados a los inputs
     document.getElementById('id').value = id;
     document.getElementById('nombre').value = nombre;
     document.getElementById('direccion').value = direccion;

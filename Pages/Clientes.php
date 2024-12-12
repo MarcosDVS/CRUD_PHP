@@ -5,7 +5,7 @@ require_once "../Service/ClienteService.php";
 $clienteService = new ClienteService();
 $Clientes = $clienteService->Consultar();
 
-// Referencia a los servicios para la entidad articulo
+// Referencia a los servicios para la entidad cliente
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['crear-cliente'])) {
         $clienteService->Crear($_POST['nombre'], $_POST['direccion'], $_POST['telefono']);
@@ -57,10 +57,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <td><?= $cliente['Direccion'] ?></td>
                     <td><?= $cliente['Telefono'] ?></td>
                     <td>
-                        <a href="AddEditClientes.php?id=<?= $cliente['Id'] ?>" class="btn btn-warning btn-sm">Editar</a>
-                        <form method="post" action="../Service/ClienteService.php" style="display:inline;">
-                            <input type="hidden" name="id" value="<?= $cliente['Id'] ?>">
-                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        <a class="btn btn-warning btn-sm fw-bold" onclick="showForm(<?php echo $cliente['Id']; ?>);
+                            fillForm('<?php echo $cliente['Id']; ?>', '<?php echo $cliente['Nombre']; ?>', 
+                            '<?php echo $cliente['Direccion']; ?>', '<?php echo $cliente['Telefono']; ?>');">
+                            EDIT
+                        </a>
+
+                        <button type="button" class="btn btn-danger btn-sm text-black fw-bold" 
+                        onclick="if(confirmDelete()) { 
+                            document.getElementById('deleteForm<?php echo $cliente['Id']; ?>').submit(); }">
+                            DELETE
+                        </button>
+                        <form id="deleteForm<?php echo $cliente['Id']; ?>" method="post" style="display:none;">
+                            <input type="hidden" name="id" value="<?php echo $cliente['Id']; ?>">
+                            <input type="hidden" name="eliminar-cliente" value="1">
                         </form>
                     </td>
                 </tr>
