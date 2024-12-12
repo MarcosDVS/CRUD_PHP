@@ -16,113 +16,142 @@ $ProductoPrecios = [];
 foreach ($Productos as $producto) {
     $ProductoPrecios[$producto['Id']] = $producto['P_Venta'];
 }
+// Referencia a los servicios para factura
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['crear-factura'])) {
+        // Validar que los campos requeridos no estén vacíos
+        if (!empty($_POST['cliente']) && !empty($_POST['tipoPago']) && !empty($_POST['productos'])) {
+            // Obtener el cliente, tipo de pago y calcular el total
+            $clienteId = $_POST['cliente']; // ID del cliente seleccionado
+            $tipoPago = $_POST['tipoPago']; // Tipo de pago seleccionado
+            $esCredito = false; // Cambiar según la lógica de tu aplicación
+            $total = 0; // Inicializar el total
+
+            // Calcular el total de los productos
+            foreach ($_POST['productos'] as $index => $productoId) {
+                $cantidad = $_POST['cantidades'][$index];
+                $precio = $_POST['precios'][$index];
+                $total += $cantidad * $precio;
+            }
+
+            // Crear la factura
+            $facturaId = $facturaService->CrearFactura($clienteId, $tipoPago, $esCredito, $total);
+            
+            // Agregar detalles de la factura
+            foreach ($_POST['productos'] as $index => $productoId) {
+                $cantidad = $_POST['cantidades'][$index];
+                $precio = $_POST['precios'][$index];
+                $facturaService->AgregarDetalle($facturaId, $productoId, $cantidad, $precio);
+            }
+        } else {
+            // Manejar el error de campos vacíos
+            echo "<script>alert('Por favor complete todos los campos requeridos.');</script>";
+        }
+    } 
+    header("Location: AddEditFactura.php");
+}
 ?>
 
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-md-10 col-lg-12">
+
+    <div class="row">
+        <div class="col-md-3"> <!-- Barra lateral fija para Cliente y Tipo de Pago -->
+            <div class="card shadow-lg border-0 rounded-3 position-fixed" style="height: 100vh;">
+                <div class="card-body p-4">
+                    <h5 class="card-title">Cliente y Tipo de Pago</h5>
+                    <form method="post" id="facturaForm" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="cliente" class="form-label">Cliente</label>
+                            <input list="clientes" class="form-control" id="cliente" name="cliente" required 
+                                   placeholder="Seleccionar Cliente" autocomplete="off">
+                            <datalist id="clientes">
+                                <?php foreach ($Clientes as $cliente): ?>
+                                    <option value="<?= $cliente['Nombre'] ?>"></option>
+                                <?php endforeach; ?>
+                            </datalist>
+                            <div class="invalid-feedback">Por favor seleccione un cliente</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="tipoPago" class="form-label">Tipo de Pago</label>
+                            <select class="form-select" id="tipoPago" name="tipoPago" required>
+                                <option value="">Seleccionar Tipo de Pago</option>
+                                <option value="Efectivo">Efectivo</option>
+                                <option value="Tarjeta">Tarjeta</option>
+                            </select>
+                            <div class="invalid-feedback">Seleccione un tipo de pago</div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9 offset-md-3 mt-4"> <!-- Card para Agregar Producto y Tabla de Productos -->
             <div class="card shadow-lg border-0 rounded-3">
-                <form method="post" id="facturaForm" class="needs-validation" novalidate>
-                    <div class="card-body p-4">
-                        <div class="row g-4">
-                            <!-- Cliente y Tipo de Pago -->
-                            <div class="col-md-6">
-                                <label for="cliente" class="form-label">Cliente</label>
-                                <select class="form-select" id="cliente" name="cliente" required>
-                                    <option value="">Seleccionar Cliente</option>
-                                    <?php foreach ($Clientes as $cliente): ?>
-                                        <option value="<?= $cliente['id'] ?>"><?= $cliente['nombre'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <div class="invalid-feedback">Por favor seleccione un cliente</div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <label for="tipoPago" class="form-label">Tipo de Pago</label>
-                                <select class="form-select" id="tipoPago" name="tipoPago" required>
-                                    <option value="">Seleccionar Tipo de Pago</option>
-                                    <option value="Efectivo">Efectivo</option>
-                                    <option value="Tarjeta">Tarjeta</option>
-                                </select>
-                                <div class="invalid-feedback">Seleccione un tipo de pago</div>
-                            </div>
-
-                            <!-- Sección de Agregar Productos -->
-                            <div class="col-md-6">
-                                <div class="card bg-light mb-3">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Agregar Producto</h5>
-                                        <div class="row g-3">
-                                            <div class="col-md-6">
-                                                <label for="producto" class="form-label">Producto</label>
-                                                <select class="form-select" id="producto" name="producto" required>
-                                                    <option value="">Seleccionar Producto</option>
-                                                    <?php foreach ($Productos as $producto): ?>
-                                                        <option value="<?= $producto['Id'] ?>"><?= $producto['Descripcion'] ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label for="cantidad" class="form-label">Cantidad</label>
-                                                <input type="number" class="form-control" id="cantidad" name="cantidad" 
-                                                       min="1" value="1" required>
-                                            </div>
-                                            <div class="col align-self-end">
-                                                <button type="button" id="agregar-producto" class="btn btn-success w-100">
-                                                    <i class="bi bi-plus-circle me-1"></i>Agregar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Tabla de Productos -->
-                            <div class="col-md-6">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-hover">
-                                        <thead class="table-primary">
-                                            <tr>
-                                                <th>Cantidad</th>
-                                                <th>Producto</th>
-                                                <th>Costo</th>
-                                                <th>Total</th>
-                                                <th>...</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tabla-productos">
-                                            <!-- Productos se agregarán dinámicamente aquí -->
-                                            <tr id="no-productos" class="text-center" <?= count($Productos) > 0 ? 'style="display:none;"' : '' ?>>
-                                                <td colspan="5">No hay productos agregados</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="3" class="text-end"><strong>Total:</strong></td>
-                                                <td id="total-factura">$0.00</td>
-                                                <td></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
+                <div class="card-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="producto" class="form-label">Producto</label>
+                            <select class="form-select" id="producto" name="producto" required>
+                                <option value="">Seleccionar Producto</option>
+                                <?php foreach ($Productos as $producto): ?>
+                                    <option value="<?= $producto['Id'] ?>"><?= $producto['Descripcion'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="cantidad" class="form-label">Cantidad</label>
+                            <input type="number" class="form-control" id="cantidad" name="cantidad" 
+                                   min="1" value="1" required>
+                        </div>
+                        <div class="col align-self-end">
+                            <button type="button" id="agregar-producto" class="btn btn-success w-100">
+                                <i class="bi bi-plus-circle me-1"></i>Agregar
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Botones de Acción -->
-                    <div class="card-footer text-center">
-                        <button type="submit" class="btn btn-primary me-2">
-                            <i class="bi bi-save me-1"></i>Guardar Factura
-                        </button>
-                        <button type="button" id="cancel-button" class="btn btn-secondary">
-                            <i class="bi bi-x-circle me-1"></i>Cancelar
-                        </button>
+                    <!-- Tabla de Productos -->
+                    <div class="table-responsive mt-3">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>Cantidad</th>
+                                    <th>Producto</th>
+                                    <th>Costo</th>
+                                    <th>Total</th>
+                                    <th>...</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-productos">
+                                <!-- Productos se agregarán dinámicamente aquí -->
+                                <tr id="no-productos" class="text-center" <?= count($Productos) > 0 ? 'style="display:none;"' : '' ?>>
+                                    <td colspan="5">No hay productos agregados</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                                    <td id="total-factura">$0.00</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
-                </form>
+                </div>
+
+                <!-- Botones de Acción -->
+                <div class="card-footer text-center">
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="bi bi-save me-1"></i>Guardar Factura
+                    </button>
+                    <button type="button" id="cancel-button" class="btn btn-secondary">
+                        <i class="bi bi-x-circle me-1"></i>Cancelar
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
