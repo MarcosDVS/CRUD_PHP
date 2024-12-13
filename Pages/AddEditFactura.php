@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <!-- Tabla de Productos -->
                     <div class="table-responsive mt-3">
                         <table class="table table-striped table-hover">
-                            <thead class="table-primary">
+                            <thead class="table-dark">
                                 <tr>
                                     <th>Cantidad</th>
                                     <th>Producto</th>
