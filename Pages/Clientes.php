@@ -1,21 +1,13 @@
 <?php
 require_once "../Shared/Header.php";
 require_once "../Service/ClienteService.php";
-
+require_once "../Service/Utils.php"; // Incluir el nuevo archivo
 $clienteService = new ClienteService();
 $Clientes = $clienteService->Consultar();
 
 // Referencia a los servicios para la entidad cliente
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['crear-cliente'])) {
-        $clienteService->Crear($_POST['nombre'], $_POST['direccion'], $_POST['telefono']);
-    } 
-    elseif (isset($_POST['editar-cliente'])) {
-        $clienteService->Editar($_POST['id'], $_POST['nombre'], $_POST['direccion'], $_POST['telefono']);
-    } 
-    elseif (isset($_POST['eliminar-cliente'])) {
-        $clienteService->Eliminar($_POST['id']);
-    }
+    $clienteService->manejarPost($_POST); // Llamada al nuevo método
     header("Location: Clientes.php");
 }
 
@@ -38,9 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <div class="container">
     <h2>Listado de Clientes</h2>
-    <a onclick="showForm(0);"class="btn btn-primary mb-3">Agregar Cliente</a>
+    <a onclick="showForm(0);"class="btn btn-primary mb-3 text-black">Agregar Cliente</a>
     <table class="table table-striped">
-        <thead>
+        <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
@@ -55,7 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <td><?= $cliente['Id'] ?></td>
                     <td><?= $cliente['Nombre'] ?></td>
                     <td><?= $cliente['Direccion'] ?></td>
-                    <td><?= $cliente['Telefono'] ?></td>
+                    <td> <!--  Para manejar el formato de esta propieda cree el archivo Utils.php -->
+                        <?= formatPhoneNumber($cliente['Telefono']) ?>
+                    </td>
                     <td>
                         <a class="btn btn-warning btn-sm fw-bold" onclick="showForm(<?php echo $cliente['Id']; ?>);
                             fillForm('<?php echo $cliente['Id']; ?>', '<?php echo $cliente['Nombre']; ?>', 

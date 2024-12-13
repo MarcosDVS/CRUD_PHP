@@ -9,6 +9,19 @@ class ClienteService {
         $this->conn = $database->getConnection();
     }
 
+    // Método para manejar las solicitudes POST
+    public function manejarPost($postData) {
+        if (isset($postData['crear-cliente'])) {
+            $this->Crear($postData['nombre'], $postData['direccion'], $postData['telefono']);
+        } 
+        elseif (isset($postData['editar-cliente'])) {
+            $this->Editar($postData['id'], $postData['nombre'], $postData['direccion'], $postData['telefono']);
+        } 
+        elseif (isset($postData['eliminar-cliente'])) {
+            $this->Eliminar($postData['id']);
+        }
+    }
+
     public function Consultar() {
         $query = "SELECT * FROM cliente";
         $stmt = $this->conn->prepare($query);
