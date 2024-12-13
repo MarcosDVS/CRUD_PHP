@@ -14,7 +14,7 @@
         </div>
         <div class="mb-3">
             <label for="telefono" class="form-label">Teléfono</label>
-            <input type="text" class="form-control" id="telefono" name="telefono">
+            <input type="text" class="form-control" id="telefono" name="telefono" maxlength="10" pattern="\d{10}" title="Debe ingresar exactamente 10 dígitos">
         </div>
         <button type="submit" class="btn btn-primary" id="submit-button" name="crear-cliente">Create</button>
         <a href="Clientes.php" class="btn btn-secondary">Cancelar</a>
