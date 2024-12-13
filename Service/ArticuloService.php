@@ -9,6 +9,19 @@ class ArticuloService {
         $this->conn = $database->getConnection();
     }
 
+    // Método para manejar las solicitudes POST
+    public function manejarPost($postData) {
+        if (isset($_POST['crearItem'])) {
+            $this->Crear($_POST['descripcion'], $_POST['p_compra'], $_POST['p_venta']);
+        } 
+        elseif (isset($_POST['editarItem'])) {
+            $this->Editar($_POST['id'], $_POST['descripcion'], $_POST['p_compra'], $_POST['p_venta']);
+        } 
+        elseif (isset($_POST['eliminarItem'])) {
+            $this->Eliminar($_POST['id']);
+        }
+    }
+
     public function Consultar() {
         $query = "SELECT * FROM articulo";
         $stmt = $this->conn->prepare($query);

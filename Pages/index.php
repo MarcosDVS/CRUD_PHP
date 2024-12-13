@@ -10,15 +10,7 @@ $Articulos = $artService->Consultar(); // Consulta los datos
 
 // Referencia a los servicios para la entidad articulo
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['crearItem'])) {
-        $artService->Crear($_POST['descripcion'], $_POST['p_compra'], $_POST['p_venta']);
-    } 
-    elseif (isset($_POST['editarItem'])) {
-        $artService->Editar($_POST['id'], $_POST['descripcion'], $_POST['p_compra'], $_POST['p_venta']);
-    } 
-    elseif (isset($_POST['eliminarItem'])) {
-        $artService->Eliminar($_POST['id']);
-    }
+    $artService->manejarPost($_POST); // Llamada al nuevo método
     header("Location: index.php");
 }
 ?>
@@ -41,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <div class="row mt-4">
         <div class="col">
-            <button id="newButton" class="btn btn-success mb-3 fw-bold text-black" onclick="showForm(0);">
-                NEW
+            <button id="newButton" class="btn btn-primary mb-3 text-black" onclick="showForm(0);">
+                Agregar producto
             </button>
         </div>
         <div class="col text-end">
