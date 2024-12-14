@@ -2,7 +2,7 @@
 require_once "../Context/Database.php";
 
 class FacturaService {
-    private $conn;
+    public $conn; // Cambiado a público para acceder a las transacciones
 
     public function __construct() {
         $database = new Database();
@@ -12,14 +12,18 @@ class FacturaService {
     public function CrearFactura($clienteId, $tipoPago, $esCredito, $total) {
         $query = "INSERT INTO factura (ClienteId, TipoPago, EsCredito, Total) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->execute([$clienteId, $tipoPago, $esCredito, $total]);
-        return $this->conn->lastInsertId();
+        $success = $stmt->execute([$clienteId, $tipoPago, $esCredito, $total]);
+        
+        if ($success) {
+            return $this->conn->lastInsertId();
+        }
+        return false;
     }
 
     public function AgregarDetalle($facturaId, $articuloId, $cantidad, $precio) {
         $query = "INSERT INTO factura_detalle (FacturaId, ArticuloId, Cantidad, Precio) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->execute([$facturaId, $articuloId, $cantidad, $precio]);
+        return $stmt->execute([$facturaId, $articuloId, $cantidad, $precio]);
     }
 
     public function ConsultarFacturas() {
@@ -33,6 +37,13 @@ class FacturaService {
         $query = "INSERT INTO abono (FacturaId, Monto) VALUES (?, ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$facturaId, $monto]);
+    }
+
+    public function ObtenerUltimaFactura() {
+        $query = "SELECT Id FROM factura ORDER BY Id DESC LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
 ?>
