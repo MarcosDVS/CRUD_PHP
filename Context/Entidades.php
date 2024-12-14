@@ -62,4 +62,8 @@ CREATE TABLE abono (
     FOREIGN KEY (FacturaId) REFERENCES factura(Id)
 );
 
+CREATE TABLE img (
+    Id_img INT AUTO_INCREMENT PRIMARY KEY,
+    Foto VARCHAR(100) NOT NULL
+);
 -->
