@@ -10,6 +10,9 @@
                     <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : ''; ?>" aria-current="page" href="../Pages/index.php">Productos</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'img_crud.php' ? 'active' : ''; ?>" aria-current="page" href="../Pages/img_crud.php">Imagen</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'Clientes.php' ? 'active' : ''; ?>" aria-current="page" href="../Pages/Clientes.php">Clientes</a>
                 </li>
                 <li class="nav-item">
