@@ -82,12 +82,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <!-- Barra lateral para Cliente y Tipo de Pago -->
                 <div class="card shadow-lg border-0 rounded-3 position-fixed" style="height: 100vh;">
                     <div class="card-body p-4">
-                        <h5 class="card-title">Cliente y Tipo de Pago</h5>
+                        <h5 class="card-title fw-bold">Cliente y Tipo de Pago</h5>
+                        
+                        <!-- Seleccion de clientes -->
                         <div class="mb-3">
-                            <label for="cliente" class="form-label">Cliente</label>
+                            <label for="cliente" class="form-label fw-bold">Cliente</label>
                             <!-- Modificar el input del cliente para guardar el ID -->
                             <select class="form-select" id="cliente" name="cliente" required>
-                                <option value="">Seleccionar Cliente</option>
+                                <option value="" class="fw-bold" disabled>Seleccionar Cliente</option>
                                 <?php foreach ($Clientes as $cliente): ?>
                                     <option value="<?= $cliente['Id'] ?>"><?= $cliente['Nombre'] ?></option>
                                 <?php endforeach; ?>
@@ -95,12 +97,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <div class="invalid-feedback">Por favor seleccione un cliente</div>
                         </div>
                         
+                        <!-- Seleccion del tipo de pago -->
                         <div class="mb-3">
-                            <label for="tipoPago" class="form-label">Tipo de Pago</label>
+                            <label for="tipoPago" class="form-label fw-bold">Tipo de Pago</label>
                             <select class="form-select" id="tipoPago" name="tipoPago" required>
-                                <option value="">Seleccionar Tipo de Pago</option>
-                                <option value="Efectivo" selected>Efectivo</option>
-                                <option value="Tarjeta">Tarjeta</option>
+                                <option value="" class="fw-bold" disabled>Seleccionar Tipo de Pago</option>
+                                <option value="Efectivo" selected>Efectivo 💵</option>
+                                <option value="Tarjeta">Tarjeta 💳</option>
+                            </select>
+                            <div class="invalid-feedback">Seleccione un tipo de pago</div>
+                        </div>
+
+                        <!-- Seleccion del tipo de venta -->
+                        <div class="mb-3">
+                            <label for="tiopVenta" class="form-label fw-bold">Tipo de Venta</label>
+                            <select class="form-select" id="tiopVenta" name="tiopVenta" required>
+                                <option value="" class="fw-bold">Seleccionar Tipo de Pago</option>
+                                <option value="0" selected>Contado 💰</option>
+                                <option value="1">Crédito 💳</option>
                             </select>
                             <div class="invalid-feedback">Seleccione un tipo de pago</div>
                         </div>
@@ -124,20 +138,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="card shadow-lg border-0 rounded-3">
                     <div class="card-body p-4">
                         <div class="row g-3">
+                            <!-- Seleccionar producto -->
                             <div class="col-md-6">
-                                <label for="producto" class="form-label">Producto</label>
-                                <select class="form-select" id="producto" name="producto" required>
+                                <label for="producto" class="form-label fw-bold">Producto</label>
+                                <select class="form-select" id="producto" name="producto">
                                     <option value="">Seleccionar Producto</option>
                                     <?php foreach ($Productos as $producto): ?>
                                         <option value="<?= $producto['Id'] ?>"><?= $producto['Descripcion'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
+                            <!-- Seleccionar cantidad -->
                             <div class="col-md-2">
                                 <label for="cantidad" class="form-label">Cantidad</label>
                                 <input type="number" class="form-control" id="cantidad" name="cantidad" 
                                        min="1" value="1" required>
                             </div>
+                            <!-- Boton para agregar detalles a la tabla -->
                             <div class="col align-self-end">
                                 <button type="button" id="agregar-producto" class="btn btn-success w-100">
                                     <i class="bi bi-plus-circle me-1"></i>Agregar

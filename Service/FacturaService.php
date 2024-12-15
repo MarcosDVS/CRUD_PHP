@@ -27,7 +27,7 @@ class FacturaService {
     }
 
     public function ConsultarFacturas() {
-        $query = "SELECT f.*, c.Nombre AS Cliente FROM factura f LEFT JOIN cliente c ON f.ClienteId = c.Id";
+        $query = "SELECT f.*, c.Nombre AS Cliente FROM factura f LEFT JOIN cliente c ON f.ClienteId = c.Id ORDER BY f.Id DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
