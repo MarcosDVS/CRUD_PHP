@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <label for="cliente" class="form-label fw-bold">Cliente</label>
                             <!-- Modificar el input del cliente para guardar el ID -->
                             <select class="form-select" id="cliente" name="cliente" required>
-                                <option value="" class="fw-bold" disabled>Seleccionar Cliente</option>
+                                <option value="" class="fw-bold">Seleccionar Cliente</option>
                                 <?php foreach ($Clientes as $cliente): ?>
                                     <option value="<?= $cliente['Id'] ?>"><?= $cliente['Nombre'] ?></option>
                                 <?php endforeach; ?>
@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div class="mb-3">
                             <label for="tiopVenta" class="form-label fw-bold">Tipo de Venta</label>
                             <select class="form-select" id="tiopVenta" name="tiopVenta" required>
-                                <option value="" class="fw-bold">Seleccionar Tipo de Pago</option>
+                                <option value="" class="fw-bold" disabled>Seleccionar Tipo de Pago</option>
                                 <option value="0" selected>Contado 💰</option>
                                 <option value="1">Crédito 💳</option>
                             </select>
