@@ -26,3 +26,10 @@ class Database {
     }
 }
 ?>
+
+<!-- 5) Una vez ya creada tu conexion es momento de crear los controladores o servicios
+dentro de tu proyecto crea una carpeta llamada Service y en dicha carpeta crea un 
+archivo llamado ArticuloService.php -->
+
+<!-- ArticuloService.php es donde manejaras el crud (create, read, update, delete) de la entidad
+articulo que habias creado anteriormente  -->

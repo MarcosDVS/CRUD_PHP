@@ -15,3 +15,54 @@
 	- Header.php
 	- NavMenu.php
 
+
+**Todas las entidades utilizadas en este proyecto**
+
+-- Crear la tabla articulo
+CREATE TABLE articulo (
+    Id INT(11) AUTO_INCREMENT PRIMARY KEY, -- Llave primaria y autoincremental
+    Descripcion VARCHAR(255) NOT NULL,     -- Descripción del artículo
+    P_Compra DECIMAL(10,2) NOT NULL,       -- Precio de compra con dos decimales
+    P_Venta DECIMAL(10,2) NOT NULL         -- Precio de venta con dos decimales
+);
+
+CREATE TABLE cliente (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
+    Direccion VARCHAR(255),
+    Telefono VARCHAR(15)
+);
+
+CREATE TABLE factura (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    ClienteId INT,
+    Fecha DATE NOT NULL DEFAULT CURDATE(),
+    TipoPago ENUM('Efectivo', 'Tarjeta') NOT NULL,
+    EsCredito BOOLEAN NOT NULL,
+    Total DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (ClienteId) REFERENCES cliente(Id)
+);
+
+CREATE TABLE factura_detalle (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    FacturaId INT,
+    ArticuloId INT,
+    Cantidad INT NOT NULL,
+    Precio DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (FacturaId) REFERENCES factura(Id),
+    FOREIGN KEY (ArticuloId) REFERENCES articulo(Id)
+);
+
+CREATE TABLE abono (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    FacturaId INT,
+    Fecha DATE NOT NULL DEFAULT CURDATE(),
+    Monto DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (FacturaId) REFERENCES factura(Id)
+);
+
+CREATE TABLE img (
+    Id_img INT AUTO_INCREMENT PRIMARY KEY,
+    Foto VARCHAR(100) NOT NULL
+);
+-->
