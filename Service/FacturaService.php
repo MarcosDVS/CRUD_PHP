@@ -47,10 +47,10 @@ class FacturaService {
     }
 
     public function ConsultarAbonosPorFactura($facturaId) {
-        $query = "SELECT * FROM abono WHERE FacturaId = ?";
+        $query = "SELECT Monto FROM abono WHERE FacturaId = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$facturaId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 }
 ?>
