@@ -1,5 +1,5 @@
 <?php
-require_once "../Shared/Header.php";
+require_once "../Header.php";
 ?>
 <div class="container mt-4">
     <h1>Acerca de Nosotros</h1>
@@ -19,4 +19,7 @@ require_once "../Shared/Header.php";
     </div>
 </div>
 
-<?php require_once "../Shared/Footer.php"; ?>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

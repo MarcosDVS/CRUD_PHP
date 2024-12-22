@@ -3,7 +3,7 @@
 //o editar la informacion de uno ya existente
 function showForm(id) {
     document.getElementById('formModal').style.display = 'block';
-    document.getElementById('modalTitle').textContent = id === 0 ? 'New item' : 'Updating item';
+    document.getElementById('modalTitle').textContent = id === 0 ? 'New customer' : 'Updating customer';
 }
 // Oculta el formulario en el archivo index.php
 function hideForm() {

@@ -1,6 +1,6 @@
 <?php
 // Referencia al head de la pagina
-require_once "../Shared/Header.php";
+require_once "../Header.php";
 // Referencia a los servicios para la entidad articulo
 require_once "../Service/ArticuloService.php";
 // Referencia a los servicios para la entidad articulo
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div id="formModal" class="modal" tabindex="-1" role="dialog" style="display:none;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-dark text-white">
+                <div class="modal-header bg-secondary text-white">
                     <h5 class="modal-title fw-bold" id="modalTitle"></h5>
                 </div>
                 <div class="modal-body">
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <tbody>
             <?php foreach ($Articulos as $item): ?>
                 <tr>
-                    <td><?php echo $item['Id']; ?></td>
+                    <th><?php echo $item['Id']; ?></th>
                     <td><?php echo $item['Descripcion']; ?></td>
                     <td>$<?= number_format($item['P_Compra'], 2) ?></td>
                     <td>$<?= number_format($item['P_Venta'], 2) ?></td>
@@ -85,4 +85,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="../Shared/js/ArticuloMethod.js"></script>
 </div>
 <!-- Referencia al pie de pagina que se encuentra en Shared -->
-<?php require_once "../Shared/Footer.php"; ?>
+<?php require_once "../Footer.php"; ?>

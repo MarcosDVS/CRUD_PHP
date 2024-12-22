@@ -1,5 +1,5 @@
 <?php 
-  require_once "../Shared/Header.php";
+  require "../Header.php";
   require_once "../Service/imgService.php";
 
   $imagenService = new imgService();
@@ -9,7 +9,7 @@
 <div class="container mt-4">
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" class="btn btn-primary mb-2 text-black" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Launch demo modal
     </button>
 
@@ -17,7 +17,7 @@
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-secondary text-white">
             <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva imagen</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -27,7 +27,7 @@
                 <input type="submit" value="Registrar" name="btn-registrar" class="form-control btn btn-primary">
             </form>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer bg-secondary">
             <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary">Save changes</button> -->
         </div>
@@ -58,4 +58,4 @@
     </table>
 
 </div>
-<?php require_once"../Shared/Footer.php" ?>
+<?php require "../Footer.php" ?>

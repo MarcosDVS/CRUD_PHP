@@ -1,5 +1,5 @@
 <?php
-require_once "../Shared/Header.php";
+require_once "../Header.php";
 require_once "../Service/ClienteService.php";
 require_once "../Service/Utils.php"; // Incluir el nuevo archivo
 $clienteService = new ClienteService();
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <div id="formModal" class="modal" tabindex="-1" role="dialog" style="display:none;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-dark text-white">
+            <div class="modal-header bg-secondary text-white">
                 <h5 class="modal-title fw-bold" id="modalTitle"></h5>
             </div>
             <div class="modal-body">
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <tbody>
             <?php foreach ($Clientes as $cliente): ?>
                 <tr>
-                    <td><?= $cliente['Id'] ?></td>
+                    <th><?= $cliente['Id'] ?></th>
                     <td><?= $cliente['Nombre'] ?></td>
                     <td><?= $cliente['Direccion'] ?></td>
                     <td> <!--  Para manejar el formato de esta propieda cree el archivo Utils.php -->
@@ -76,4 +76,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!-- Referencia a los metodos Javascript en ArticuloMethod.js -->
 <script src="../Shared/js/ClienteMethod.js"></script>
 
-<?php require_once "../Shared/Footer.php"; ?>
+<?php require_once "../Footer.php"; ?>

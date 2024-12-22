@@ -1,5 +1,5 @@
 <?php
-require_once "../Shared/Header.php";
+require_once "../Header.php";
 require_once "../Service/FacturaService.php";
 require_once "../Service/ClienteService.php";
 require_once "../Service/ArticuloService.php";
@@ -119,7 +119,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <div class="invalid-feedback">Seleccione un tipo de pago</div>
                         </div>
 
-                        <!-- Agregar esto aquí -->
+                        <!-- Abono opcional -->
+                        <div class="mb-3" id="abono-container" style="display: none;">
+                            <label for="abono" class="form-label fw-bold">Abono</label>
+                            <input type="number" class="form-control" id="abono" name="abono" 
+                                   min="0" value="0" placeholder="Ingrese el monto del abono">
+                            <div class="invalid-feedback">Ingrese un monto válido para el abono</div>
+                        </div>
+
+                        <!-- Monto a deber -->
+                        <div class="mb-3" id="deuda-container" style="display: none;">
+                            <div class="alert alert-info" role="alert">
+                                <strong>Deuda restante:</strong> <span id="deuda-restante">$0.00</span>
+                            </div>
+                        </div>
+
+                        <!-- Numero de la factura -->
                         <div class="mb-3">
                             <div class="alert alert-info" role="alert">
                                 <strong>Número de Factura:</strong> 
@@ -150,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <!-- Seleccionar cantidad -->
                             <div class="col-md-2">
-                                <label for="cantidad" class="form-label">Cantidad</label>
+                                <label for="cantidad" class="form-label fw-bold">Cantidad</label>
                                 <input type="number" class="form-control" id="cantidad" name="cantidad" 
                                        min="1" value="1" required>
                             </div>
@@ -320,7 +335,38 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Debe agregar al menos un producto a la factura');
         }
     });
+
+    const tipoVentaSelect = document.getElementById('tiopVenta');
+    const abonoContainer = document.getElementById('abono-container');
+    const deudaContainer = document.getElementById('deuda-container');
+    const abonoInput = document.getElementById('abono');
+    const totalFacturaElement = document.getElementById('total-factura');
+
+    tipoVentaSelect.addEventListener('change', function() {
+        if (this.value == "1") { // Si es crédito
+            abonoContainer.style.display = 'block';
+            calcularDeuda();
+        } else {
+            abonoContainer.style.display = 'none';
+            deudaContainer.style.display = 'none';
+        }
+    });
+
+    abonoInput.addEventListener('input', function() {
+        calcularDeuda();
+    });
+
+    function calcularDeuda() {
+        const totalFactura = parseFloat(totalFacturaElement.innerText.replace('$', '').replace(',', ''));
+        const abono = parseFloat(abonoInput.value) || 0;
+        const deudaRestante = totalFactura - abono;
+        document.getElementById('deuda-restante').innerText = `$${deudaRestante.toFixed(2)}`;
+        deudaContainer.style.display = deudaRestante > 0 ? 'block' : 'none';
+    }
 });
 </script>
 
-<?php require_once "../Shared/Footer.php"; ?>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
