@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Obtener el cliente, tipo de pago y calcular el total
                 $clienteId = $_POST['cliente']; // ID del cliente seleccionado
                 $tipoPago = $_POST['tipoPago']; // Tipo de pago seleccionado
-                $esCredito = false; // Cambiar según la lógica de tu aplicación
+                $esCredito = $_POST['tiopVenta']; // Cambiar según la lógica de tu aplicación
                 $total = 0; // Inicializar el total
 
                 // Calcular el total de los productos
@@ -40,6 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $facturaId = $facturaService->CrearFactura($clienteId, $tipoPago, $esCredito, $total);
                 if (!$facturaId) {
                     die("Error al crear la factura. Verifique la consulta SQL.");
+                }
+
+                // Registrar el abono si se ha proporcionado
+                if (!empty($_POST['abono']) && $_POST['abono'] > 0) {
+                    $montoAbono = $_POST['abono'];
+                    $facturaService->RegistrarAbono($facturaId, $montoAbono); // Registrar el abono
                 }
 
                 // Agregar detalles
@@ -360,13 +366,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const totalFactura = parseFloat(totalFacturaElement.innerText.replace('$', '').replace(',', ''));
         const abono = parseFloat(abonoInput.value) || 0;
         const deudaRestante = totalFactura - abono;
-        document.getElementById('deuda-restante').innerText = `$${deudaRestante.toFixed(2)}`;
+        document.getElementById('deuda-restante').innerText = `$${deudaRestante.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
         deudaContainer.style.display = deudaRestante > 0 ? 'block' : 'none';
     }
 });
 </script>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
-</html>
+<?php require_once "../Footer.php"; ?>
