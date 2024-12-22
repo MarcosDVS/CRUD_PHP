@@ -2,15 +2,11 @@
 	/Service
 	/Context
 	/View
-		/Client
-			- Clientes.php
-		/img
-			- img_crud.php
-		/Invoice
-			- Facturas.php
-			- AddEditFactura.php
-		/Product
-			- index.php
+		- Clientes.php
+		- img_crud.php
+		- Facturas.php
+		- AddEditFactura.php
+		- index.php
   	- Footer.php
 	- Header.php
 	- NavMenu.php
