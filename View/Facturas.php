@@ -12,16 +12,25 @@ foreach ($facturas as &$factura) {
 ?>
 
 <div class="container mt-4">
-    <h3 class="text-center fw-bold">Listado de Facturas</h3>
-    
-    <!-- Menú desplegable para filtrar las facturas -->
-    <form method="GET" class="mb-3">
-        <select name="tipoFactura" id="tipoFactura" class="form-select" onchange="this.form.submit()">
-            <option value="Contado" selected <?= isset($_GET['tipoFactura']) && $_GET['tipoFactura'] == 'Contado' ? 'selected' : '' ?>>Contado</option>
-            <option value="Credito" <?= isset($_GET['tipoFactura']) && $_GET['tipoFactura'] == 'Credito' ? 'selected' : '' ?>>Crédito</option>
-            <option value="Pendiente" <?= isset($_GET['tipoFactura']) && $_GET['tipoFactura'] == 'Pendiente' ? 'selected' : '' ?>>Pendiente</option>
-        </select>
-    </form>
+    <div class="row mt-4 d-flex justify-content-between align-items-center">
+        <div class="col">
+            <h3 class="fw-bold">Listado de Facturas</h3>
+
+        </div>
+        <div class="col-3">
+            <!-- Menú desplegable para filtrar las facturas -->
+            <form method="GET" class="mb-3">
+                <select name="tipoFactura" id="tipoFactura" class="form-select" onchange="this.form.submit()">
+                    <option value="Contado" selected <?= isset($_GET['tipoFactura']) && $_GET['tipoFactura'] == 'Contado' ? 'selected' : '' ?>>Contado</option>
+                    <option value="Credito" <?= isset($_GET['tipoFactura']) && $_GET['tipoFactura'] == 'Credito' ? 'selected' : '' ?>>Crédito</option>
+                    <option value="Pendiente" <?= isset($_GET['tipoFactura']) && $_GET['tipoFactura'] == 'Pendiente' ? 'selected' : '' ?>>Pendiente</option>
+                </select>
+            </form>
+
+        </div>
+        
+
+    </div>
 
     <table class="table table-striped">
         <thead class="table-dark">
@@ -37,7 +46,7 @@ foreach ($facturas as &$factura) {
                 ?>
                 <?php if ($tipoFactura === 'Credito' || $tipoFactura === 'Pendiente'): ?>
                     <th>Abonos</th>
-                    <th>Importe</th>
+                    <th>Pendiente</th>
                 <?php endif; ?>
                 <th>Acciones</th>
             </tr>
@@ -46,7 +55,7 @@ foreach ($facturas as &$factura) {
             <?php 
             foreach ($facturas as $factura): 
                 $importe = array_sum($factura['Abonos']) - $factura['Total'];
-                if (($tipoFactura == 'Contado' && $importe >= 0) || 
+                if (($tipoFactura == 'Contado' && $importe !== 0 && $factura['EsCredito'] === "1") || 
                     ($tipoFactura == 'Credito' && $importe < 0 && $factura['EsCredito'] === "0") || 
                     ($tipoFactura == 'Pendiente' && $importe < 0 && $factura['EsCredito'] === "0")) {
                     continue; // Saltar facturas que no coinciden con el filtro
