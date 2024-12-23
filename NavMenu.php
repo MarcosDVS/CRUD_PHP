@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">CRUD Articulo</a>
+        <a class="navbar-brand" href="#">CRUD</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -24,7 +24,7 @@
                 </li>
                 <li class="nav-item">
                     <!-- Ruta corregida para AddEditFactura.php -->
-                    <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'AddEditFactura.php' ? 'active' : ''; ?>" aria-current="page" href="AddFactura.php">Vender</a>
+                    <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'AddFactura.php' ? 'active' : ''; ?>" aria-current="page" href="AddFactura.php">Vender</a>
                 </li>
                 <li class="nav-item">
                     <!-- Ruta corregida para about.php -->

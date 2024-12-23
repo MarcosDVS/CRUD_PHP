@@ -21,6 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['crear-factura'])) {
 
         try {
+            // Iniciar la transacción
+            $facturaService->conn->beginTransaction(); // Iniciar la transacción
+
             // Validar que los campos requeridos no estén vacíos
             if (!empty($_POST['cliente']) && !empty($_POST['tipoPago']) && !empty($_POST['productos'])) {
                 // Obtener el cliente, tipo de pago y calcular el total
@@ -65,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Mostrar alerta con el ID de la factura y luego redireccionar
                 echo "<script>
                     alert('Factura creada exitosamente. ID de la factura: " . $facturaId . "');
-                    window.location.href = 'AddEditFactura.php';
+                    window.location.href = 'AddFactura.php';
                 </script>";
                 exit;
 
@@ -74,11 +77,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<script>alert('Por favor complete todos los campos requeridos.');</script>";
             }
         } catch (Exception $e) {
+            $facturaService->conn->rollBack(); // Revertir la transacción en caso de error
             echo "Error: " . $e->getMessage();
             exit;
         }
     } 
-    header("Location: AddEditFactura.php");
+    header("Location: AddFactura.php");
 }
 ?>
 
@@ -88,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <!-- Barra lateral para Cliente y Tipo de Pago -->
                 <div class="card shadow-lg border-0 rounded-3 position-fixed" style="height: 100vh;">
                     <div class="card-body p-4">
-                        <h5 class="card-title fw-bold">Cliente y Tipo de Pago</h5>
                         
                         <!-- Seleccion de clientes -->
                         <div class="mb-3">
@@ -336,9 +339,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Optional: Form submission handler
     document.getElementById('facturaForm').addEventListener('submit', function(e) {
-        if (tablaProductos.children.length === 0) {
+        const clienteSelect = document.getElementById('cliente');
+        const tipoPagoSelect = document.getElementById('tipoPago');
+        const tablaProductos = document.getElementById('tabla-productos');
+        const tipoVentaSelect = document.getElementById('tiopVenta');
+        const abonoInput = document.getElementById('abono');
+        const totalFacturaElement = document.getElementById('total-factura');
+
+        // Validar que se haya seleccionado un cliente
+        if (!clienteSelect.value) {
             e.preventDefault();
-            alert('Debe agregar al menos un producto a la factura');
+            alert('Por favor seleccione un cliente.');
+            return;
+        }
+
+        // Validar que haya al menos un producto en la tabla
+        if (tablaProductos.children.length === 0 || 
+            (tablaProductos.children.length === 1 && tablaProductos.children[0].id === 'no-productos')) {
+            e.preventDefault();
+            alert('Debe agregar al menos un producto a la factura.');
+            return;
+        }
+
+        // Validar que se haya seleccionado un tipo de pago
+        if (!tipoPagoSelect.value) {
+            e.preventDefault();
+            alert('Por favor seleccione un tipo de pago.');
+            return;
+        }
+
+        // Validar que el abono no sea igual o mayor al total en ventas a crédito
+        if (tipoVentaSelect.value == "1") { // Si es crédito
+            const totalFactura = parseFloat(totalFacturaElement.innerText.replace('$', '').replace(',', ''));
+            const abono = parseFloat(abonoInput.value) || 0;
+            if (abono >= totalFactura) {
+                e.preventDefault();
+                alert('El abono no puede ser igual o mayor al total de la factura en ventas a crédito.');
+                return;
+            }
         }
     });
 
